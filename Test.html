@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Test - Write a Summary of Hibernate</title>
+  <style>
+    body {
+      max-width: 680px;
+      margin: 40px auto;
+      padding: 0 20px;
+      color: #243044;
+      font-family: Arial, sans-serif;
+      background: #f4f7fb;
+    }
+    main {
+      padding: 28px;
+      border-radius: 10px;
+      background: #fff;
+      box-shadow: 0 4px 14px #24304418;
+    }
+    h1 { color: #2458a6; }
+    label { display: block; margin-top: 16px; font-weight: bold; }
+    input, textarea {
+      box-sizing: border-box;
+      width: 100%;
+      margin-top: 6px;
+      padding: 10px;
+      border: 1px solid #b9c5d5;
+      border-radius: 5px;
+      font: inherit;
+    }
+    textarea { min-height: 170px; resize: vertical; }
+    #word-count { margin: 6px 0 16px; color: #53647a; }
+    button {
+      padding: 10px 20px;
+      border: 0;
+      border-radius: 5px;
+      color: #fff;
+      background: #2458a6;
+      font: inherit;
+      cursor: pointer;
+    }
+    .back-link { display: inline-block; margin-left: 12px; color: #2458a6; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Test - Write a Summary of Hibernate</h1>
+    <form method="post" action="Verify.jsp">
+      <label for="name">Name</label>
+      <input id="name" name="name" type="text" required>
+
+      <label for="email">Email ID</label>
+      <input id="email" name="email" type="email" required>
+
+      <label for="summary">Summary</label>
+      <textarea id="summary" name="summary" required></textarea>
+      <p id="word-count" aria-live="polite">Words: 0</p>
+
+      <button type="submit">Submit</button>
+      <a class="back-link" href="About.html">Back to About</a>
+    </form>
+  </main>
+  <script>
+    const summaryField = document.getElementById("summary");
+    const wordCount = document.getElementById("word-count");
+    const form = summaryField.form;
+
+    // Count words as the summary changes.
+    summaryField.addEventListener("input", () => {
+      const text = summaryField.value.trim();
+      const count = text ? text.split(/\s+/).length : 0;
+      wordCount.textContent = `Words: ${count}`;
+    });
+
+    // Keep long text out of the redirect URL.
+    form.addEventListener("submit", (event) => {
+      try {
+        sessionStorage.setItem("choicesSummary", summaryField.value);
+      } catch (error) {
+        event.preventDefault();
+        window.alert("The summary could not be saved in this browser. Please try again with a shorter summary.");
+      }
+    });
+  </script>
+</body>
+</html>

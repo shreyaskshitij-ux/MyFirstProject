@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Your Result</title>
+  <style>
+    body {
+      max-width: 760px;
+      margin: 40px auto;
+      padding: 0 20px;
+      color: #243044;
+      font-family: Arial, sans-serif;
+      background: #f4f7fb;
+    }
+    h1 { color: #2458a6; }
+    .card {
+      padding: 28px;
+      border-radius: 10px;
+      background: #fff;
+      box-shadow: 0 4px 14px #24304418;
+    }
+    .field-label { margin-bottom: 4px; font-weight: bold; }
+    .value { margin-top: 0; overflow-wrap: anywhere; }
+    .summary {
+      min-height: 50px;
+      padding: 12px;
+      border-radius: 5px;
+      background: #f4f7fb;
+      white-space: pre-wrap;
+    }
+    .marks { font-size: 1.25rem; font-weight: bold; }
+    .mark-10 { color: #18834a; }
+    .mark-7 { color: #c8750a; }
+    .mark-3 { color: #c43b3b; }
+    a { color: #2458a6; }
+  </style>
+</head>
+<body>
+  <h1>Your Result</h1>
+  <main class="card">
+    <p class="field-label">Name</p>
+    <p class="value" id="name"></p>
+    <p class="field-label">Email</p>
+    <p class="value" id="email"></p>
+    <p class="field-label">Summary written by the user</p>
+    <p class="value summary" id="summary"></p>
+    <p class="field-label">Word count</p>
+    <p class="value" id="words"></p>
+    <p class="field-label">Mistakes</p>
+    <p class="value" id="mistakes"></p>
+    <p class="field-label">Marks</p>
+    <p class="value marks" id="marks"></p>
+    <a href="About.html">Start Again</a>
+  </main>
+  <script>
+    const parameters = new URLSearchParams(window.location.search);
+    const valueOrDash = (key) => parameters.get(key) || "—";
+    const marks = parameters.get("marks");
+    const submittedSummary = sessionStorage.getItem("choicesSummary");
+    const summary = submittedSummary === null
+      ? valueOrDash("summary")
+      : submittedSummary;
+
+    // Use textContent so submitted text is displayed as text, not HTML.
+    document.getElementById("name").textContent = valueOrDash("name");
+    document.getElementById("email").textContent = valueOrDash("email");
+    document.getElementById("summary").textContent = summary || "—";
+    document.getElementById("words").textContent = valueOrDash("words");
+    document.getElementById("mistakes").textContent = valueOrDash("mistakes");
+    sessionStorage.removeItem("choicesSummary");
+
+    const marksElement = document.getElementById("marks");
+    marksElement.textContent = `${marks || "—"} / 10`;
+    if (marks === "10") {
+      marksElement.classList.add("mark-10");
+    } else if (marks === "7") {
+      marksElement.classList.add("mark-7");
+    } else if (marks === "3") {
+      marksElement.classList.add("mark-3");
+    }
+  </script>
+</body>
+</html>
